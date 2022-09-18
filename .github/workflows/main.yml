@@ -27,13 +27,17 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        run: |
+          echo "$DOCKER_PASSWORD"
+          docker login -u $DOCKER_USERNAME --password-stdin
           
       # Runs a single command using the runners shell
       - name: Docker build Node App
-        run: docker build -t simbarashedhave/simple-node-docker-app:latest
+        run: |
+          docker build -t simbarashedhave/simple-node-docker-app
 
       # Runs a set of commands using the runners shell
       - name: Docker push
-        run: docker push simbarashedhave/simple-node-docker-app:latest
+        run: |
+          docker push simbarashedhave/simple-node-docker-app:latest
           
